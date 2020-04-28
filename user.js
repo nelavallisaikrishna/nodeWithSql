@@ -7,7 +7,6 @@ var secret = 'dsadsadhjskahjaskhfajhfsahfdkjhfas'
 
 async function createUserAPI(req, res) {
     try {
-        var createUser = req.body;
         if(!req.body.email){
             res.send({"message":"email is required"})
         }
@@ -17,13 +16,13 @@ async function createUserAPI(req, res) {
         let selectQry = 'SELECT * from user WHERE email='+'"'+req.body.email+'"'
         db.query (selectQry, function(error, results){
             if (results.length > 0){
-                res.send({"message": "User Already exists"})
+                res.status(200).json({"message": "User Already exists"})
             }
             else{
                 bcrypt.hash(req.body.password, 12, function (err, hash) {
                     let insertQry = "INSERT INTO user (email, password) VALUES ('" +req.body.email+"', '"+hash+"')";
                     db.query(insertQry);
-                    res.send({ "status": true, "message": "User Registered Successfully"});
+                    res.status(200).json({ "status": true, "message": "User Registered Successfully"});
                 })
 
             }
@@ -53,7 +52,7 @@ async function loginAPI(req, res) {
                                 expiresIn: '24h' // expires in 24 hours
                             }
                         );
-                        res.json({
+                        res.status(200).json({
                             status: true,
                             message: 'Authentication successful!',
                             token: token
@@ -61,50 +60,50 @@ async function loginAPI(req, res) {
                         console.log("Authentication successful!")
 
                     }else{
-                        res.send({"message":"Invalid Password"})
+                        res.status(200).json({"message":"Invalid Password"})
                     }
                 });
             }
             else{
-               res.send({"message":"User Not Found"})
+               res.status(200).json({"message":"User Not Found"})
             }
         });
-        // var results = await User.findOne({'auth.email': email});
-        // if (results != null) {
-        //     var pasmepassword = await bcrypt.compare(password, results.auth.password);
-        //     if (pasmepassword) {
-        //         let token = await jwt.sign({email: email, role: results.userType, id: results._id},
-        //             config.secret,
-        //             {
-        //                 expiresIn: '24h' // expires in 24 hours
-        //             }
-        //         );
-        //         res.json({
-        //             result: results,
-        //             status: true,
-        //             message: 'Authentication successful!',
-        //             token: token
-        //         });
-        //         console.log("Authentication successful!")
-        //     } else {
-        //         res.json({
-        //             result: Messages.userOrPasswordWrong,
-        //             status: false
-        //         });
-        //     }
-        // } else {
-        //     res.json({
-        //         result: Messages.userNotRegister,
-        //         status: false
-        //     });
-        // }
-
     } catch (err) {
         console.log("err---------------", err)
         throw err;
     }
 }
 
+let checkToken = async(req, res, next) => {
+    let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
+    try {
+        if (token) {
+            var decoded = await jwt.verify(token, secret)
+            if (!decoded) {
+                return res.json({
+                    success: false,
+                    message: 'Token is not valid'
+                });
+            } else {
+                next();
+            }
+
+        } else {
+            return res.json({
+                success: false,
+                message: 'Auth token is not supplied'
+            });
+        }
+    }catch (err) {
+        return res.json({
+            success: false,
+            message: 'Token is not valid'
+        });
+        throw err
+    }
+};
+
 
 module.exports.createUser = createUserAPI;
 module.exports.loginAPI = loginAPI;
+module.exports.checkToken = checkToken;
