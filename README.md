@@ -40,10 +40,10 @@
   Headers : "Authorization" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhcmlrYSIsImlhdCI6MTU4ODA2Mjc0MiwiZXhwIjoxNTg4MTQ5MTQyfQ.lfd0W8XvHZoctbvWEq83lgm3ZZyHPhH2y_Re-C5j2iI" <br>
 
   
-// Delete Product
-  EndPoint: http://localhost:3000/api/product
-  method:DELETE
-  requestBody:{"id":20}
+// Delete Product <br>
+  EndPoint: http://localhost:3000/api/product <br>
+  method:DELETE <br>
+  requestBody:{"id":20} <br>
   Headers : "Authorization" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhcmlrYSIsImlhdCI6MTU4ODA2Mjc0MiwiZXhwIjoxNTg4MTQ5MTQyfQ.lfd0W8XvHZoctbvWEq83lgm3ZZyHPhH2y_Re-C5j2iI"
 
   
