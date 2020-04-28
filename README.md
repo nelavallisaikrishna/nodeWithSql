@@ -1,9 +1,9 @@
 //npm init
 
-npm install --save express body-parser bcrypt jsonwebtoken mysql
-CREATE TABLE user (id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(50), password VARCHAR(255))
-CREATE TABLE product (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50), description VARCHAR(255), image VARCHAR(255))
-CREATE TABLE product_detail (
+//npm install --save express body-parser bcrypt jsonwebtoken mysql
+//CREATE TABLE user (id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(50), password VARCHAR(255))
+//CREATE TABLE product (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50), description VARCHAR(255), image VARCHAR(255))
+//CREATE TABLE product_detail (
    size    DOUBLE ,
    price   DOUBLE,
    product_id INTEGER,
